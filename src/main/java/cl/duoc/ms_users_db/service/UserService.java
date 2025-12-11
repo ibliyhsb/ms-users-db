@@ -21,7 +21,7 @@ public class UserService {
     }
 
     private User toEntity(UserDto dto) {
-        return new User(dto.getId(), dto.getUsername(), dto.getEmail(), dto.getPassword());
+        return new User(dto.getId(), dto.getNombreUsuario(), dto.getCorreoUsuario(), dto.getPasswordUsuario());
     }
 
     public UserDto createUser(UserDto dto) {
@@ -39,9 +39,9 @@ public class UserService {
 
     public Optional<UserDto> updateUser(Long id, UserDto dto) {
         return userRepository.findById(id).map(existing -> {
-            existing.setUsername(dto.getUsername());
-            existing.setEmail(dto.getEmail());
-            existing.setPassword(dto.getPassword());
+            existing.setUsername(dto.getNombreUsuario());
+            existing.setEmail(dto.getCorreoUsuario());
+            existing.setPassword(dto.getPasswordUsuario());
             return toDto(userRepository.save(existing));
         });
     }

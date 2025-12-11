@@ -49,9 +49,9 @@ public class UserController {
         if (found.isEmpty()) return ResponseEntity.notFound().build();
 
         User entity = found.get();
-        entity.setUsername(userDto.getUsername());
-        entity.setEmail(userDto.getEmail());
-        entity.setPassword(userDto.getPassword());
+        entity.setUsername(userDto.getNombreUsuario());
+        entity.setEmail(userDto.getCorreoUsuario());
+        entity.setPassword(userDto.getPasswordUsuario());
         User saved = UserRepository.save(entity);
         return ResponseEntity.ok(toDto(saved));
     }
@@ -65,11 +65,20 @@ public class UserController {
     }
 
     private UserDto toDto(User entity) {
-        return new UserDto(entity.getId(), entity.getUsername(), entity.getEmail(), entity.getPassword());
+        return new UserDto(
+            entity.getId(),
+            entity.getUsername(), // nombreUsuario
+            entity.getEmail(),    // correoUsuario
+            entity.getPassword()  // passwordUsuario
+        );
     }
 
-
     private User toEntity(UserDto dto) {
-        return new User(dto.getId(), dto.getUsername(), dto.getEmail(), dto.getPassword());
+        return new User(
+            dto.getId(),
+            dto.getNombreUsuario(), // nombreUsuario
+            dto.getCorreoUsuario(), // correoUsuario
+            dto.getPasswordUsuario() // passwordUsuario
+        );
     }
 }

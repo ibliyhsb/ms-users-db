@@ -15,17 +15,15 @@ import lombok.ToString;
 @ToString    
 
 public class UserDto {
-    
     @JsonProperty("id")
     private Long id;
-    
-    @JsonProperty("username")
-    private String username;
-    
-    @JsonProperty("email")
-    private String email;
-    
-    @JsonProperty("password")
-    private String password;
-    
+
+    @JsonProperty("nombreUsuario")
+    private String nombreUsuario;
+
+    @JsonProperty("correoUsuario")
+    private String correoUsuario;
+
+    @JsonProperty("passwordUsuario")
+    private String passwordUsuario;
 }
