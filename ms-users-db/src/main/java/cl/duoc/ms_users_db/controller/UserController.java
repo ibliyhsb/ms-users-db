@@ -16,20 +16,20 @@ import java.util.stream.Collectors;
 public class UserController {
 
     @Autowired
-    private UserRepository UserRepository;
+    private UserRepository userRepository;
 
     // CREATE
     @PostMapping
     public ResponseEntity<UserDto> createUser(@RequestBody UserDto userDto) {
         User entity = toEntity(userDto);
-        User saved = UserRepository.save(entity);
+        User saved = userRepository.save(entity);
         return ResponseEntity.ok(toDto(saved));
     }
 
     // READ ALL
     @GetMapping
     public List<UserDto> getAllUsers() {
-        return UserRepository.findAll().stream()
+        return userRepository.findAll().stream()
                 .map(this::toDto)
                 .collect(Collectors.toList());
     }
@@ -37,7 +37,7 @@ public class UserController {
     // READ ONE
     @GetMapping("/{id}")
     public ResponseEntity<UserDto> getUserById(@PathVariable Long id) {
-        Optional<User> found = UserRepository.findById(id);
+        Optional<User> found = userRepository.findById(id);
         return found.map(entity -> ResponseEntity.ok(toDto(entity)))
                 .orElseGet(() -> ResponseEntity.notFound().build());
     }
@@ -45,31 +45,31 @@ public class UserController {
     // UPDATE
     @PutMapping("/{id}")
     public ResponseEntity<UserDto> updateUser(@PathVariable Long id, @RequestBody UserDto userDto) {
-        Optional<User> found = UserRepository.findById(id);
+        Optional<User> found = userRepository.findById(id);
         if (found.isEmpty()) return ResponseEntity.notFound().build();
 
         User entity = found.get();
-        entity.setUsername(userDto.getNombreUsuario());
-        entity.setEmail(userDto.getCorreoUsuario());
-        entity.setPassword(userDto.getPasswordUsuario());
-        User saved = UserRepository.save(entity);
+        entity.setNombreUsuario(userDto.getNombreUsuario());
+        entity.setCorreoUsuario(userDto.getCorreoUsuario());
+        entity.setPasswordUsuario(userDto.getPasswordUsuario());
+        User saved = userRepository.save(entity);
         return ResponseEntity.ok(toDto(saved));
     }
 
     // DELETE
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteUser(@PathVariable Long id) {
-        if (!UserRepository.existsById(id)) return ResponseEntity.notFound().build();
-        UserRepository.deleteById(id);
+        if (!userRepository.existsById(id)) return ResponseEntity.notFound().build();
+        userRepository.deleteById(id);
         return ResponseEntity.noContent().build();
     }
 
     private UserDto toDto(User entity) {
         return new UserDto(
             entity.getId(),
-            entity.getUsername(), // nombreUsuario
-            entity.getEmail(),    // correoUsuario
-            entity.getPassword()  // passwordUsuario
+            entity.getNombreUsuario(), // nombreUsuario
+            entity.getCorreoUsuario(),    // correoUsuario
+            entity.getPasswordUsuario()  // passwordUsuario
         );
     }
 
